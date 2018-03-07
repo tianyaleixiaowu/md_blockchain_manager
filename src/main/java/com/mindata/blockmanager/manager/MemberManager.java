@@ -5,6 +5,8 @@ import com.mindata.blockmanager.repository.MemberRepository;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author wuweifeng wrote on 2018/3/7.
@@ -15,14 +17,14 @@ public class MemberManager {
     private MemberRepository memberRepository;
 
     public int checkIdAndIp(String name, String id, String ip) {
-        Member member = memberRepository.findByName(name);
+        List<Member> members = memberRepository.findByName(name);
         //客户不存在
-        if (member == null) {
+        if (members.size() == 0) {
             return -1;
-        } else if (!member.getMemberId().equals(id)) {
+        } else if (!members.get(0).getMemberId().equals(id)) {
             //id错误
             return -2;
-        } else if (!member.getIp().equals(ip)) {
+        } else if (!members.stream().map(Member::getIp).collect(Collectors.toSet()).contains(ip)) {
             //ip错误
             return -3;
         }
