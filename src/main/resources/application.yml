@@ -11,3 +11,5 @@ spring:
     active: ${ENV:prod}
 logging:
   file: ./logback.log
+server:
+  port: 8888

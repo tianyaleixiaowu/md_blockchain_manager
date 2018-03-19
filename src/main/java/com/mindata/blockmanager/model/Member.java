@@ -13,9 +13,9 @@ import javax.persistence.Table;
 @Table(name = "member")
 public class Member extends BaseEntity {
     /**
-     * 成员id，用于校验该客户是否合法，客户端启动时需要带着该值
+     * 成员id，用于校验该客户是否合法，客户端启动时需要带着该值。一个公司可能有多个appId，相当于多个服务器节点
      */
-    private String memberId;
+    private String appId;
     /**
      * 成员名
      */
@@ -32,19 +32,19 @@ public class Member extends BaseEntity {
     @Override
     public String toString() {
         return "Member{" +
-                "memberId='" + memberId + '\'' +
+                "appId='" + appId + '\'' +
                 ", name='" + name + '\'' +
                 ", ip='" + ip + '\'' +
                 ", port=" + port +
                 '}';
     }
 
-    public String getMemberId() {
-        return memberId;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getName() {
