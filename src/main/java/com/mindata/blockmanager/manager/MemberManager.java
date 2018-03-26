@@ -49,6 +49,8 @@ public class MemberManager {
             memberData.setMessage("ip错误");
         }
         memberData.setCode(0);
+        //如果该member是合法的，则返回给他所有的成本列表
+        members = memberRepository.findByAppIdNot(id);
         memberData.setMembers(members);
         return memberData;
     }
