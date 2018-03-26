@@ -4,3 +4,5 @@ spring:
     url: jdbc:mysql://${MYSQL_URL}/blockchain_manager?autoReconnect=true&useUnicode=true
     username: md
     password: ${MYSQL_PASS}
+server:
+  port: 8080
