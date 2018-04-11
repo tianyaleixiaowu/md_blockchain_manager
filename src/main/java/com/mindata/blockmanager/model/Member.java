@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "member")
 public class Member extends BaseEntity {
     /**
-     * 成员id，用于校验该客户是否合法，客户端启动时需要带着该值。一个公司可能有多个appId，相当于多个服务器节点
+     * 节点id，用于校验该客户是否合法，客户端启动时需要带着该值。一个公司可能有多个appId，相当于多个服务器节点
      */
     private String appId;
     /**
@@ -25,9 +25,9 @@ public class Member extends BaseEntity {
      */
     private String ip;
     /**
-     * 成员客户端端口号
+     * 属于哪个联盟链，groupId
      */
-    private Integer port;
+    private String groupId;
 
     @Override
     public String toString() {
@@ -35,7 +35,7 @@ public class Member extends BaseEntity {
                 "appId='" + appId + '\'' +
                 ", name='" + name + '\'' +
                 ", ip='" + ip + '\'' +
-                ", port=" + port +
+                ", groupId=" + groupId +
                 '}';
     }
 
@@ -63,11 +63,11 @@ public class Member extends BaseEntity {
         this.ip = ip;
     }
 
-    public Integer getPort() {
-        return port;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setPort(Integer port) {
-        this.port = port;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

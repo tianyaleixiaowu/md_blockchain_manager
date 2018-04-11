@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author wuweifeng wrote on 2018/3/7.
@@ -17,40 +16,42 @@ public class MemberManager {
     @Resource
     private MemberRepository memberRepository;
 
-    public int checkIdAndIp(String name, String id, String ip) {
-        List<Member> members = memberRepository.findByName(name);
-        //客户不存在
-        if (members.size() == 0) {
-            return -1;
-        } else if (!members.get(0).getAppId().equals(id)) {
-            //id错误
-            return -2;
-        } else if (!members.stream().map(Member::getIp).collect(Collectors.toSet()).contains(ip)) {
-            //ip错误
-            return -3;
+    /**
+     * 查询某成员的groupId
+     * @param memberName
+     * 成员名
+     * @return
+     * 分组id
+     */
+    public String findGroupId(String memberName) {
+        Member member = memberRepository.findFirstByName(memberName);
+        if (member != null) {
+            return member.getGroupId();
         }
-        return 0;
+        return null;
     }
 
-    public MemberData memberData(String name, String id, String ip) {
+    public MemberData memberData(String name, String appId, String ip) {
         MemberData memberData = new MemberData();
-        List<Member> members = memberRepository.findByName(name);
+        Member member = memberRepository.findFirstByAppId(appId);
         //客户不存在
-        if (members.size() == 0) {
+        if (member == null) {
             memberData.setCode(-1);
             memberData.setMessage("客户不存在");
-        } else if (!members.get(0).getAppId().equals(id)) {
-            //id错误
+        } else if (!member.getName().equals(name)) {
+            //name错误
             memberData.setCode(-2);
-            memberData.setMessage("id错误");
-        } else if (!members.stream().map(Member::getIp).collect(Collectors.toSet()).contains(ip)) {
+            memberData.setMessage("name错误");
+        } else if (!member.getIp().equals(ip)) {
             //ip错误
             memberData.setCode(-3);
             memberData.setMessage("ip错误");
         }
         memberData.setCode(0);
-        //如果该member是合法的，则返回给他所有的成本列表
-        members = memberRepository.findByAppIdNot(id);
+        String groupId = findGroupId(name);
+        //如果该member是合法的，则返回给他联盟内所有的成员列表
+        //List<Member> members = memberRepository.findByGroupIdAndAppIdNot(groupId, id);
+        List<Member> members = memberRepository.findByGroupId(groupId);
         memberData.setMembers(members);
         return memberData;
     }
