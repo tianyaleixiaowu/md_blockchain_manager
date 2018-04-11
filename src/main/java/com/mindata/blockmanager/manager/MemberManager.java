@@ -51,6 +51,7 @@ public class MemberManager {
         String groupId = findGroupId(name);
         //如果该member是合法的，则返回给他联盟内所有的成员列表
         //List<Member> members = memberRepository.findByGroupIdAndAppIdNot(groupId, id);
+        //如果是自己单节点测试的话，就保持现在这样，如果是正常发布，就注释掉这一行，放开上一行的注释
         List<Member> members = memberRepository.findByGroupId(groupId);
         memberData.setMembers(members);
         return memberData;
